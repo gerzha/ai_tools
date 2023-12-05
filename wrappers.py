@@ -1,21 +1,18 @@
 from typing import List, Union
 
 import pandas as pd
-from pydantic import BaseModel
-
-
 
 DEFAULT_COLUMNS: List[str] = [
-        "timestamp",
-        "open",
-        "high",
-        "low",
-        "close",
-        "volume",
-        "volumeCcy",
-        "volCcyQuote",
-        "confirm",
-    ]
+    "timestamp",
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume",
+    "volumeCcy",
+    "volCcyQuote",
+    "confirm",
+]
 
 
 def wrap_candlestick_data_to_pd(
@@ -52,4 +49,17 @@ def wrap_candlestick_data_to_pd(
         )
 
     df = pd.DataFrame(data, columns=columns)
+
+    df["open"] = df["open"].astype(float)
+    df["high"] = df["high"].astype(float)
+    df["low"] = df["low"].astype(float)
+    df["close"] = df["close"].astype(float)
+    df["volume"] = df["volume"].astype(float)
+    df["volumeCcy"] = df["volumeCcy"].astype(float)
+    df["volCcyQuote"] = df["volCcyQuote"].astype(float)
+    df["confirm"] = df["confirm"].astype(float)
+
+    # Reverse the DataFrame to have the oldest data first
+    df = df.iloc[::-1]
+
     return df

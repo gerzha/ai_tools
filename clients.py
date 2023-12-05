@@ -21,7 +21,9 @@ class OkxClient:
 
     def get_candles(
         self,
-        currency_pair: OKXCurrencyPair = OKXCurrencyPair(currency_pair="BTC-USDT").currency_pair,
+        currency_pair: OKXCurrencyPair = OKXCurrencyPair(
+            currency_pair="BTC-USDT"
+        ).currency_pair,
         timeframe: OKXTimeFrame = OKXTimeFrame(timeframe="1Dutc").timeframe,
         period: int = 100,
     ) -> pd.DataFrame:
@@ -42,7 +44,6 @@ class OkxClient:
         response = self.client.get_candlesticks(
             instId=currency_pair, bar=timeframe, limit=period
         )
-        response["data"].reverse()
         return wrap_candlestick_data_to_pd(data=response["data"])
 
 
